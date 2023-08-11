@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CsvDataProcessor.Test\**" />
+    <Compile Remove="TestProject1\**" />
+    <EmbeddedResource Remove="CsvDataProcessor.Test\**" />
+    <EmbeddedResource Remove="TestProject1\**" />
+    <None Remove="CsvDataProcessor.Test\**" />
+    <None Remove="TestProject1\**" />
+    <Page Remove="CsvDataProcessor.Test\**" />
+    <Page Remove="TestProject1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Infra\UI\Resources\ClearFilter.png" />
+    <None Remove="PersonsDemo.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Infra\UI\Resources\ClearFilter.png" />
+    <EmbeddedResource Include="PersonsDemo.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+
+</Project>
