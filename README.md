@@ -8,7 +8,7 @@ intially it start and load data with embeded PersonDemo.csv file however you can
 #Technology Used
 .Net6, C#, WPF, MVVM, Unity (for depenfancy injectons), MSTest , Moq
 
-Please follow these step to start the Data Processro :
+Please follow these step to start the Data Processor :
 
 #using Visual Studio 
 Open Solution
@@ -23,5 +23,5 @@ Double click CsvDataProcessor.exe to run the application
 
 #Features
 Sort and filter using the provided option on the top 
-Can upload new file in supported format by application to refresh the data
+Can upload new file in supported format by application to view the data
 it provide real time data logs for user updates.
