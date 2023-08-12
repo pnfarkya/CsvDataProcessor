@@ -14,19 +14,29 @@ namespace CsvDataProcessor.DataProcessor
 
     public abstract class BaseFileReader<T> where T : class, new()
     {
+        public BaseFileReader()
+        {
+            RowsWithError = new List<int>();
+        }
+
+        #region Abstract Members
+
+        protected abstract void PopulateMetaData();
+        protected abstract T ProcessRow(string[] values);
+
+        #endregion
+
+        #region Protect Members
+
         protected readonly Dictionary<string, ColumnAttribute> Attributes
                 = new Dictionary<string, ColumnAttribute>();
 
         // Considering all columns will in string
         protected readonly List<string> AllColumns = new List<string>();
 
-        public BaseFileReader()
-        {
-            RowsWithError = new List<int>();
-        }
+        #endregion
 
-        protected abstract void PopulateMetaData();
-        protected abstract T ProcessRow(string[] values);
+        #region IBaseReader Members
 
         public List<int> RowsWithError
         {
@@ -34,8 +44,11 @@ namespace CsvDataProcessor.DataProcessor
             protected set;
         }
 
-        public string FileName { get; protected set; }
-
+        /// <summary>
+        /// Read The CSV file with FilePath and validate the columns and data
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public List<T> Read(string path)
         {
             RowsWithError.Clear();
@@ -45,7 +58,8 @@ namespace CsvDataProcessor.DataProcessor
 
             try
             {
-                using (var reader = new StreamReader(File.OpenRead(path)))
+                AllColumns.Clear();
+                using (var reader = new StreamReader(File.OpenRead(@path)))
                 {
                     var columnStr = reader.ReadLine();
 
@@ -81,10 +95,15 @@ namespace CsvDataProcessor.DataProcessor
             catch (Exception ex)
             {
                 Console.WriteLine($"Error while reading file {path} :{ex.Message}");
+                throw ex;
             }
 
             return records;
         }
+
+        #endregion
+
+        #region Helper Methods
 
         private void ValidateColumns(string[] headers)
         {
@@ -109,5 +128,7 @@ namespace CsvDataProcessor.DataProcessor
                 colIdx++;
             }
         }
+
+        #endregion
     }
 }

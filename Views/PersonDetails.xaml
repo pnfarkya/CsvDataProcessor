@@ -75,7 +75,7 @@
 
                     <TextBlock Grid.Column="0" Text="Current Source File: " Style="{StaticResource HeaderStyle}"/>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding FilePath}" />
-                    <Button Grid.Column="2" Style="{StaticResource ActionButtonStyle}" Content="Upload New" Command="{Binding UploadFileCmd}"/>
+                    <Button Grid.Column="2" Style="{StaticResource ActionButtonStyle}" Content="Upload New" Command="{Binding UploadCmd}"/>
                 </Grid>
             </DataTemplate>
 
@@ -98,7 +98,7 @@
 
         <ContentControl Content="{Binding .}" ContentTemplate="{StaticResource SortFilterTemplate}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
 
-        <ScrollViewer Margin="10,0,10,0" Name="MyScrollViewer" Grid.Row="2" VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
+        <ScrollViewer Margin="10,0,10,0" Name="PersonScrollViewer" Grid.Row="2" VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
             <ListView IsHitTestVisible="False" ItemTemplate="{StaticResource EmployeeInfoTemplate}" ItemsSource="{Binding Rows}" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -112,7 +112,7 @@
 
 
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Text="Loading Data..." Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}"
-                   VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="14"/>
+                   VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="Teal"/>
 
     </Grid>
 </Window>

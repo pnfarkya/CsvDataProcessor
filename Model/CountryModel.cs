@@ -9,6 +9,8 @@ namespace CsvDataProcessor.Model
             Name = name;
         }
 
+        #region Bindable Props
+
         private string _name;
         public string Name
         {
@@ -30,5 +32,7 @@ namespace CsvDataProcessor.Model
                 OnPropertyChanged("IsSelected");
             }
         }
+
+        #endregion
     }
 }

@@ -1,0 +1,6 @@
+PersonDetailsVmTest
+  Tests in group: 4
+   Total Duration: 2.1 sec
+
+Outcomes
+   4 Passed

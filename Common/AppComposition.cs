@@ -17,6 +17,6 @@ namespace CsvDataProcessor.Common
         public AppComposition()
         {
             Init();
-          }
+        }
     }
 }

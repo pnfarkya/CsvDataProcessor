@@ -2,12 +2,14 @@
 using CsvDataProcessor.Infra;
 using CsvDataProcessor.Model;
 using CsvDataProcessor.ViewModels.Support;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Input;
 
 namespace CsvDataProcessor.ViewModels
 {
@@ -27,6 +29,25 @@ namespace CsvDataProcessor.ViewModels
             _reader = reader;
             Init();
         }
+
+        #region Command and Executers 
+
+        public ICommand UploadCmd => new RelayCommand<object>(OnUpload);
+
+        private void OnUpload(object obj)
+        {
+            OpenFileDialog openFileDlg = new OpenFileDialog();
+            var fileSelected = openFileDlg.ShowDialog();
+            if (fileSelected != null && (bool)fileSelected)
+            {
+                IsBusy = true;
+                FilePath = openFileDlg.FileName;
+                Rows.Clear();
+                ProcessFile();
+            }
+        }
+
+        #endregion
 
         #region BindableProps
 
@@ -92,6 +113,7 @@ namespace CsvDataProcessor.ViewModels
         private void OnFilterChange(Tuple<List<string>> filters)
         {
             var rows = _allRows;
+            IsBusy = true;
             Task.Factory.StartNew(() =>
             {
                 if (filters.Item1 != null && filters.Item1.Any())
@@ -104,6 +126,7 @@ namespace CsvDataProcessor.ViewModels
                         Rows.Clear();
                         Rows.AddRange(rows);
                         OnSortChange(FilterVm.SelectedSort);
+                        OnComplete();
                     });
             });
         }
@@ -125,6 +148,7 @@ namespace CsvDataProcessor.ViewModels
         #endregion
 
         #region HelperMethods
+
         private void Init()
         {
             Reset();
@@ -135,10 +159,16 @@ namespace CsvDataProcessor.ViewModels
         private void ProcessFile()
         {
             List<PersonModel> rows = null;
+            StringBuilder message = new StringBuilder(string.Empty);
             try
             {
                 rows = _reader.Read(FilePath);
                 _allRows = rows;
+                message.Append($"DataLog: {DateTime.Now.ToString("dd-MM-yyyy:HH:MM:ss")}: Data file {FilePath} , has {rows?.Count} valid rows");
+                if (_reader.RowsWithError.Any())
+                {
+                    message.Append($" and {_reader.RowsWithError.Count} invalid rows at row number(s): {string.Join(", ", _reader.RowsWithError)}");
+                }
                 if (rows != null && rows.Any())
                 {
                     DispatcherUtils.Instance.Invoke(() =>
@@ -147,28 +177,26 @@ namespace CsvDataProcessor.ViewModels
                         Rows.AddRange(rows);
                         OnComplete();
                     });
-
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error while processing file: {ex.Message}");
-                MessageBox.Show($"Error while processing file: {ex.Message}", "Error", MessageBoxButton.OK);
+                message.Append($"DataLog: {DateTime.Now.ToString("dd-MM-yyyy:HH:MM:ss")}: {ex.Message}");
+                DispatcherUtils.Instance.BeginInvoke(() =>
+                {
+                    OnComplete();
+                });
             }
 
             DispatcherUtils.Instance.BeginInvoke(() =>
             {
-                UpdateDataStats(rows, FilePath);
+                UpdateDataStats(message.ToString());
             });
         }
 
-        private void UpdateDataStats(List<PersonModel> rows, string filePath)
+        private void UpdateDataStats(string message)
         {
-            string message = $"DataLog: {DateTime.Now.ToString("dd-MM-yyyy:HH:MM:ss")}: Data file {FilePath} , has {rows?.Count} valid rows";
-            if (_reader.RowsWithError.Any())
-            {
-                message += $" and {_reader.RowsWithError.Count} invalid rows at row number(s): {string.Join(", ", _reader.RowsWithError)}";
-            }
             DataStats.Add(message);
         }
 

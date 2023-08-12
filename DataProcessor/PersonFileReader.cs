@@ -9,6 +9,7 @@ namespace CsvDataProcessor.DataProcessor
     }
     public sealed class PersonFileReader : BaseFileReader<PersonModel>, IPersonFileReader
     {
+        #region Override Methods
         protected override void PopulateMetaData()
         {
             var columns = EnumHelper.GetValues<PersonColumn>();
@@ -16,8 +17,10 @@ namespace CsvDataProcessor.DataProcessor
             foreach (var item in columns)
             {
                 var att = EnumHelper.GetAttributes<ColumnAttribute>(item);
-
-                Attributes.Add(att.Description, att);
+                if (!Attributes.ContainsKey(att.Description))
+                {
+                    Attributes.Add(att.Description, att);
+                }
                 AllColumns.Add(item.ToString());
             }
         }
@@ -34,5 +37,7 @@ namespace CsvDataProcessor.DataProcessor
                 Phone = values[5]
             };
         }
+
+        #endregion
     }
 }

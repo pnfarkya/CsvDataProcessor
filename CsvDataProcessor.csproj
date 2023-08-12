@@ -9,22 +9,24 @@
 
   <ItemGroup>
     <Compile Remove="CsvDataProcessor.Test\**" />
+    <Compile Remove="Infra\UI\Resources\**" />
     <Compile Remove="TestProject1\**" />
     <EmbeddedResource Remove="CsvDataProcessor.Test\**" />
+    <EmbeddedResource Remove="Infra\UI\Resources\**" />
     <EmbeddedResource Remove="TestProject1\**" />
     <None Remove="CsvDataProcessor.Test\**" />
+    <None Remove="Infra\UI\Resources\**" />
     <None Remove="TestProject1\**" />
     <Page Remove="CsvDataProcessor.Test\**" />
+    <Page Remove="Infra\UI\Resources\**" />
     <Page Remove="TestProject1\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Infra\UI\Resources\ClearFilter.png" />
     <None Remove="PersonsDemo.csv" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Infra\UI\Resources\ClearFilter.png" />
     <EmbeddedResource Include="PersonsDemo.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

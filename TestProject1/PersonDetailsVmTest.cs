@@ -2,10 +2,9 @@ using CsvDataProcessor.DataProcessor;
 using CsvDataProcessor.Model;
 using CsvDataProcessor.Test.TestData;
 using CsvDataProcessor.ViewModels;
-using Moq;
 using System.Collections.ObjectModel;
 
-namespace TestProject1
+namespace TestProject
 {
     [TestClass]
     public class PersonDetailsVmTest

@@ -32,10 +32,10 @@
             <TextBlock Text="Application Stats" Foreground="RoyalBlue" Grid.Row="0" FontSize="14"
                        Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding .}" FontSize="12">
+            <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding .}" FontSize="12" ToolTipService.IsEnabled="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Margin="0,5,0,0" Text="{Binding .}" TextWrapping="WrapWithOverflow" MaxWidth="1000"/>
+                        <TextBlock ToolTip="{Binding .}" Margin="0,5,0,0" Text="{Binding .}" TextWrapping="WrapWithOverflow" MaxWidth="1000"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

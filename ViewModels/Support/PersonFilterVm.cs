@@ -10,7 +10,14 @@ namespace CsvDataProcessor.ViewModels.Support
 {
     public class PersonFilterVm : ViewModel
     {
+        #region Private Members
+
         private Tuple<List<string>> _filter;
+        private Action<Tuple<List<string>>> _filterAction { get; set; }
+        private Action<string> _sortAction { get; set; }
+
+        #endregion
+
         public PersonFilterVm(Action<Tuple<List<string>>> filterAction, Action<string> sortAction)
         {
             _filter = new Tuple<List<string>>(new List<string>());
@@ -19,8 +26,7 @@ namespace CsvDataProcessor.ViewModels.Support
             Countries = new ObservableCollection<CountryModel>();
         }
 
-        private Action<Tuple<List<string>>> _filterAction { get; set; }
-        private Action<string> _sortAction { get; set; }
+        #region Command and Executers 
 
         public ICommand CountryFilterCmd => new RelayCommand<object>(OnFilter);
         public ICommand ClearFilterCmd => new RelayCommand<object>(OnClearFilter);
@@ -37,6 +43,10 @@ namespace CsvDataProcessor.ViewModels.Support
             _filterAction.Invoke(_filter);
         }
 
+        /// <summary>
+        /// Clear the current selected filters
+        /// </summary>
+        /// <param name="obj"></param>
         private void OnClearFilter(object obj)
         {
             foreach (var country in Countries)
@@ -48,26 +58,9 @@ namespace CsvDataProcessor.ViewModels.Support
             OnPropertyChanged("CountryDisplayText");
         }
 
-        /// <summary>
-        /// This Methods reload all the reqiures filters based on the latest data
-        /// </summary>
-        /// <param name="rows"></param>
-        public async void Reload(List<PersonModel> rows)
-        {
-            Reset();
-            if (rows != null && rows.Any())
-            {
-                var countries = rows.Select(c => c.Country).Distinct();
-                foreach (var item in countries.OrderBy(c => c))
-                {
-                    Countries.Add(new CountryModel(item));
-                }
-            }
-        }
-        private void Reset()
-        {
-            Countries.Clear();
-        }
+        #endregion
+
+        #region BindbaleProps
 
         private ObservableCollection<CountryModel> _countries;
         public ObservableCollection<CountryModel> Countries
@@ -123,5 +116,33 @@ namespace CsvDataProcessor.ViewModels.Support
                 _sortAction.Invoke(value);
             }
         }
+
+        #endregion
+
+        #region HelperMethod
+
+        /// <summary>
+        /// This Methods reload all the reqiures filters based on the latest data
+        /// </summary>
+        /// <param name="rows"></param>
+        public async void Reload(List<PersonModel> rows)
+        {
+            Reset();
+            if (rows != null && rows.Any())
+            {
+                var countries = rows.Select(c => c.Country).Distinct();
+                foreach (var item in countries.OrderBy(c => c))
+                {
+                    Countries.Add(new CountryModel(item));
+                }
+            }
+        }
+
+        private void Reset()
+        {
+            Countries.Clear();
+        }
+
+        #endregion      
     }
 }
