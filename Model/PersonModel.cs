@@ -1,7 +1,4 @@
-﻿using CsvDataProcessor.Common;
-using CsvDataProcessor.Infra;
-
-namespace CsvDataProcessor.Model
+﻿namespace CsvDataProcessor.Model
 {
     // Since we are just reading the file and not updating any values
     // of person information hence created model without NotifyPropChange to avoid uncnecory props change event

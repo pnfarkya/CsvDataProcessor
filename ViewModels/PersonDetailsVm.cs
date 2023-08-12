@@ -17,6 +17,7 @@ namespace CsvDataProcessor.ViewModels
     {
         private const string _defaultFile = "PersonsDemo.csv";
 
+
         private readonly IPersonFileReader _reader;
         private List<PersonModel> _allRows;
 
@@ -38,12 +39,16 @@ namespace CsvDataProcessor.ViewModels
         {
             OpenFileDialog openFileDlg = new OpenFileDialog();
             var fileSelected = openFileDlg.ShowDialog();
-            if (fileSelected != null && (bool)fileSelected)
+            if (fileSelected != null && (bool)fileSelected && openFileDlg.FileName.Contains(".csv"))
             {
                 IsBusy = true;
                 FilePath = openFileDlg.FileName;
                 Rows.Clear();
-                ProcessFile();
+                Task.Factory.StartNew(ProcessFile);
+            }
+            else
+            {
+                UpdateDataStats($"DataLog: {DateTime.Now.ToString("dd-MM-yyyy:HH:MM:ss")} : Selected file is invalid, only .csv file is acceptable");
             }
         }
 
@@ -153,7 +158,7 @@ namespace CsvDataProcessor.ViewModels
         {
             Reset();
             IsBusy = true;
-            var t = Task.Factory.StartNew(ProcessFile);
+            Task.Factory.StartNew(ProcessFile);
         }
 
         private void ProcessFile()
