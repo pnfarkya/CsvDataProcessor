@@ -74,7 +74,6 @@ namespace CsvDataProcessor.ViewModels.Support
             }
         }
 
-        private string _countryDisplayText;
         public string CountryDisplayText
         {
             get
@@ -89,7 +88,6 @@ namespace CsvDataProcessor.ViewModels.Support
             set
             {
                 OnPropertyChanged("CountryDisplayText");
-
             }
         }
 

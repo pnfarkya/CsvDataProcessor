@@ -21,6 +21,10 @@ namespace CsvDataProcessor.ViewModels
         private readonly IPersonFileReader _reader;
         private List<PersonModel> _allRows;
 
+        /// <summary>
+        /// PersonDetailsVm Constructor
+        /// </summary>
+        /// <param name="reader"></param>
         public PersonDetailsVm(IPersonFileReader reader)
         {
             FilePath = _defaultFile;

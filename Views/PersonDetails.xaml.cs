@@ -8,7 +8,7 @@ using Unity;
 namespace CsvDataProcessor.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PersonDetils.xaml
     /// </summary>
     public partial class PersonDetails : Window
     {
